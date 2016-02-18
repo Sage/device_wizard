@@ -4,7 +4,7 @@ Welcome to DeviceWizard!
 
 The super fast, ultra light weight device detection framework.
 
-Because DeviceWizard is not based on any lookup dictionaries it is future proof and does not need updating when new devices come out, and becuase it is not based on any lookup dictionaries it is super fast and small in size.
+Because DeviceWizard is not based on any lookup dictionaries it is future proof and does not need updating when new devices come out, and because it's not based on any lookup dictionaries it is super fast and small in size.
 
 ## Installation
 
