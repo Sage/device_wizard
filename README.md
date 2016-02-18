@@ -1,8 +1,10 @@
 # DeviceWizard
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/device_wizard`. To experiment with that code, run `bin/console` for an interactive prompt.
+Welcome to DeviceWizard!
 
-TODO: Delete this and the text above, and describe your gem
+The super fast, ultra light weight device detection framework.
+
+Because DeviceWizard is not based on any lookup dictionaries it is future proof and does not need updating when new devices come out, and becuase it is not based on any lookup dictionaries it is super fast and small in size.
 
 ## Installation
 
@@ -22,7 +24,20 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+    #create the user agent detector
+    detector = DeviceWizard::UserAgentDetector.new
+    
+    #pass the user agent to the detector
+    device_type = detector.get_device_type(user_agent_string)
+    
+The detected device type will be one of the following:
+- **desktop**
+- **tablet**
+- **mobile**
+- **crawler**
+- **unknown**
+
+To improve performance in your application when using device detector we recommend that you only check the device type on the first request and either store the result in the session or a cookie to prevent having to recalculate the device type on each request.
 
 ## Development
 
