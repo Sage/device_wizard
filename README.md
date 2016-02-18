@@ -39,6 +39,11 @@ The detected device type will be one of the following:
 
 To improve performance in your application when using device detector we recommend that you only check the device type on the first request and either store the result in the session or a cookie to prevent having to recalculate the device type on each request.
 
+## Upcoming Features
+
+- **Browser Detection**: determine the browser the request was sent from (e.g. chrome/ firefox / internet explorer / or safari etc..)
+- **OS Detection**: determine the OS and version the request was sent from (e.g. Windows 10 / IOS 9 etc..)
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
