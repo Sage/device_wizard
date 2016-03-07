@@ -30,6 +30,20 @@ module DeviceWizard
     REGEX_CRAWLER = /(spider|crawl|slurp|bot)/
     #########
 
+    def initialize
+      @browser_resolvers = []
+      @browser_resolvers.push(FirefoxResolver.new)
+      @browser_resolvers.push(GoogleChromeResolver.new)
+      @browser_resolvers.push(InternetExplorerResolver.new)
+      @browser_resolvers.push(SafariResolver.new)
+
+      @os_resolvers = []
+      @os_resolvers.push(AndroidResolver.new)
+      @os_resolvers.push(IOSResolver.new)
+      @os_resolvers.push(MacResolver.new)
+      @os_resolvers.push(WindowsResolver.new)
+    end
+
     def get_device_type(user_agent)
 
       if user_agent.to_s.strip.length == 0
@@ -72,6 +86,333 @@ module DeviceWizard
 
     end
 
+    def get_browser(user_agent)
+
+      @browser_resolvers.each do |r|
+
+        browser = r.identify(user_agent)
+
+        if browser != nil
+          return browser
+        end
+
+      end
+
+      return BrowserDetails.new
+
+    end
+
+    def get_os(user_agent)
+
+      @os_resolvers.each do |r|
+
+        os = r.identify(user_agent)
+
+        if os != nil
+          return os
+        end
+
+      end
+
+      return OperatingSystemDetails.new
+
+    end
+
+    def get_details(user_agent)
+      details = DeviceDetails.new
+
+      details.type = get_device_type(user_agent)
+      details.browser = get_browser(user_agent)
+      details.os = get_os(user_agent)
+
+      return details
+    end
+
   end
+
+  class DeviceDetails
+    attr_accessor :type
+    attr_accessor :browser
+    attr_accessor :os
+  end
+
+  class BrowserDetails
+    attr_accessor :name
+    attr_accessor :version
+
+    def initialize
+      @name = 'Unknown'
+      @version = 'Unknown'
+    end
+  end
+
+  class FirefoxResolver
+
+    KEYWORD = 'firefox'
+    REGEX = Regexp.new('firefox/([0-9]+.[0-9])')
+
+    def get_version(user_agent)
+      user_agent.downcase!
+      result = 'Unknown'
+
+      if REGEX =~ user_agent
+        result = $1
+      end
+    end
+
+    def identify(user_agent)
+      user_agent.downcase!
+
+      if !user_agent.include? KEYWORD
+        return nil
+      end
+
+      result = BrowserDetails.new
+      result.name = 'Firefox'
+      result.version = get_version(user_agent)
+      return result
+    end
+  end
+
+  class GoogleChromeResolver
+
+    KEYWORD = 'chrome'
+    REGEX = Regexp.new('chrome/([0-9]+.[0-9]+.[0-9]+.[0-9])')
+
+    def get_version(user_agent)
+      user_agent.downcase!
+      result = 'Unknown'
+
+      if REGEX =~ user_agent
+        result = $1
+      end
+    end
+
+    def identify(user_agent)
+      user_agent.downcase!
+
+      if !user_agent.include? KEYWORD
+        return nil
+      end
+
+      result = BrowserDetails.new
+      result.name = 'Google Chrome'
+      result.version = get_version(user_agent)
+      return result
+    end
+
+  end
+
+  class InternetExplorerResolver
+
+    KEYWORD = 'msie'
+    REGEX = Regexp.new('msie ([0-9]+.[0-9])')
+
+    def get_version(user_agent)
+      user_agent.downcase!
+      result = 'Unknown'
+
+      if REGEX =~ user_agent
+        result = $1
+      end
+    end
+
+    def identify(user_agent)
+      user_agent.downcase!
+
+      if !user_agent.include? KEYWORD
+        return nil
+      end
+
+      result = BrowserDetails.new
+      result.name = 'Internet Explorer'
+      result.version = get_version(user_agent)
+      return result
+    end
+
+  end
+
+  class SafariResolver
+
+    KEYWORD = 'safari'
+    REGEX = Regexp.new('safari/([\.0-9]{3,})')
+
+    def get_version(user_agent)
+      user_agent.downcase!
+      result = 'Unknown'
+
+      if REGEX =~ user_agent
+        result = $1
+      end
+    end
+
+    def identify(user_agent)
+      user_agent.downcase!
+
+      if !user_agent.include? KEYWORD
+        return nil
+      end
+
+      result = BrowserDetails.new
+      result.name = 'Safari'
+      result.version = get_version(user_agent)
+      return result
+    end
+
+  end
+
+  class OperatingSystemDetails
+
+    attr_accessor :name
+    attr_accessor :type
+    attr_accessor :version
+
+  end
+
+  class AndroidResolver
+
+    KEYWORD = 'android'
+    REGEX = Regexp.new('android (\d+(?:\.\d+)+)')
+
+    def get_version(user_agent)
+      user_agent.downcase!
+      result = 'Unknown'
+
+      if REGEX =~ user_agent
+        result = $1
+      end
+    end
+
+    def identify(user_agent)
+      user_agent.downcase!
+
+      if !user_agent.include? KEYWORD
+        return nil
+      end
+
+      result = OperatingSystemDetails.new
+      result.name = 'Android'
+      result.version = get_version(user_agent)
+      return result
+    end
+
+  end
+
+  class IOSResolver
+
+    IPHONE = 'iphone'
+    IPAD = 'ipad'
+    IPOD = 'ipod'
+    REGEX = Regexp.new('os ((\d+_?){2,3})\s')
+
+    def get_version(user_agent)
+      user_agent.downcase!
+      result = 'Unknown'
+
+      if REGEX =~ user_agent
+        result = $1
+      end
+
+      return result.gsub('_','.')
+    end
+
+    def get_type(user_agent)
+      user_agent.downcase!
+
+      if user_agent.include? IPOD
+        return 'IPod'
+      end
+
+      if user_agent.include? IPAD
+        return 'IPad'
+      end
+
+      if user_agent.include? IPHONE
+        return 'IPhone'
+      end
+
+      return 'Unknown'
+    end
+
+    def identify(user_agent)
+      user_agent.downcase!
+
+      if !user_agent.include? IPHONE
+        if !user_agent.include? IPAD
+          if !user_agent.include? IPOD
+            return nil
+          end
+        end
+      end
+
+      result = OperatingSystemDetails.new
+      result.name = 'IOS'
+      result.type = get_type(user_agent)
+      result.version = get_version(user_agent)
+      return result
+    end
+
+  end
+
+  class MacResolver
+
+    KEYWORD = 'intel mac os x'
+    REGEX = Regexp.new('intel mac os x ([0-9]+_[0-9])')
+
+    def get_version(user_agent)
+      user_agent.downcase!
+      result = 'Unknown'
+
+      if REGEX =~ user_agent
+        result = $1
+      end
+
+      return result.gsub('_','.')
+    end
+
+    def identify(user_agent)
+      user_agent.downcase!
+
+      if !user_agent.include? KEYWORD
+        return nil
+      end
+
+      result = OperatingSystemDetails.new
+      result.name = 'Mac OSX'
+      result.version = get_version(user_agent)
+      return result
+    end
+
+  end
+
+  class WindowsResolver
+
+    KEYWORD = 'windows nt'
+    REGEX = Regexp.new('windows nt ([0-9]{1,}[\.0-9]{0,})')
+
+    def get_version(user_agent)
+      user_agent.downcase!
+      result = 'Unknown'
+
+      if REGEX =~ user_agent
+        result = $1
+      end
+    end
+
+    def identify(user_agent)
+      user_agent.downcase!
+
+      if !user_agent.include? KEYWORD
+        return nil
+      end
+
+      result = OperatingSystemDetails.new
+      result.name = 'Windows'
+      result.version = get_version(user_agent)
+      return result
+    end
+
+  end
+
 
 end

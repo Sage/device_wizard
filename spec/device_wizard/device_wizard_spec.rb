@@ -161,4 +161,19 @@ x-client-data:CKa2yQEIxLbJAQj9lcoBCMOYygE=')).to eq(DeviceWizard::DeviceType::TA
 
   end
 
+  describe 'Details' do
+
+    it 'should correctly collect type, os & browser details from a user agent string' do
+
+      user_agent = "Mozilla/5.0 (iPhone; CPU iPhone OS 7_0 like Mac OS X; en-us) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11A465 Safari/9537.53"
+      details = subject.get_details(user_agent)
+
+      expect(details.type).to eq('mobile')
+      expect(details.browser.name).to eq('Safari')
+      expect(details.os.name).to eq('IOS')
+
+    end
+
+  end
+
 end
