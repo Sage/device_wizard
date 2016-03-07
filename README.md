@@ -24,6 +24,39 @@ Or install it yourself as:
 
 ## Usage
 
+**Identify All Details**
+
+    #create the user agent detector
+    detector = DeviceWizard::UserAgentDetector.new
+    
+    #pass the user agent to the detector
+    details = detector.get_details(user_agent)
+    
+The detected details will return the following:
+- **Type** This is the device type of the request [mobile/tablet/desktop etc]
+- **Browser** This is the browser of the request {name, version}
+
+
+    browser = details.browser
+    
+    browser_name = details.browser.name
+    
+    browser_version = details.browser.version
+    
+- **OS** This is the operating system of the request {name, type, version}
+
+
+    os = details.os
+    
+    os_name = details.os.name
+    
+    os_type = details.os.type
+    
+    os_version = details.os.version
+
+
+**Identify Device Type**
+
     #create the user agent detector
     detector = DeviceWizard::UserAgentDetector.new
     
@@ -38,11 +71,6 @@ The detected device type will be one of the following:
 - **unknown**
 
 To improve performance in your application when using device detector we recommend that you only check the device type on the first request and either store the result in the session or a cookie to prevent having to recalculate the device type on each request.
-
-## Upcoming Features
-
-- **Browser Detection**: determine the browser the request was sent from (e.g. chrome/ firefox / internet explorer / or safari etc..)
-- **OS Detection**: determine the OS and version the request was sent from (e.g. Windows 10 / IOS 9 etc..)
 
 ## Development
 
