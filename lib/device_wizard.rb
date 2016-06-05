@@ -2,6 +2,8 @@ require "device_wizard/version"
 
 module DeviceWizard
 
+  UNKNOWN = 'Unknown'.freeze
+
   class DeviceType
     DESKTOP='desktop'
     TABLET='tablet'
@@ -42,6 +44,10 @@ module DeviceWizard
       @os_resolvers.push(IOSResolver.new)
       @os_resolvers.push(MacResolver.new)
       @os_resolvers.push(WindowsResolver.new)
+    end
+
+    def unknown
+      UNKNOWN
     end
 
     def get_device_type(user_agent)
@@ -141,8 +147,8 @@ module DeviceWizard
     attr_accessor :version
 
     def initialize
-      @name = 'Unknown'
-      @version = 'Unknown'
+      @name = UNKNOWN
+      @version = UNKNOWN
     end
   end
 
@@ -153,7 +159,7 @@ module DeviceWizard
 
     def get_version(user_agent)
       user_agent.downcase!
-      result = 'Unknown'
+      result = UNKNOWN
 
       if REGEX =~ user_agent
         result = $1
@@ -181,7 +187,7 @@ module DeviceWizard
 
     def get_version(user_agent)
       user_agent.downcase!
-      result = 'Unknown'
+      result = UNKNOWN
 
       if REGEX =~ user_agent
         result = $1
@@ -211,7 +217,7 @@ module DeviceWizard
 
     def get_version(user_agent)
       user_agent.downcase!
-      result = 'Unknown'
+      result = UNKNOWN
 
       if REGEX =~ user_agent
         result = $1
@@ -245,7 +251,7 @@ module DeviceWizard
 
     def get_version(user_agent)
       user_agent.downcase!
-      result = 'Unknown'
+      result = UNKNOWN
 
       if REGEX =~ user_agent
         result = $1
@@ -282,7 +288,7 @@ module DeviceWizard
 
     def get_version(user_agent)
       user_agent.downcase!
-      result = 'Unknown'
+      result = UNKNOWN
 
       if REGEX =~ user_agent
         result = $1
@@ -313,7 +319,7 @@ module DeviceWizard
 
     def get_version(user_agent)
       user_agent.downcase!
-      result = 'Unknown'
+      result = UNKNOWN
 
       if REGEX =~ user_agent
         result = $1
@@ -337,7 +343,7 @@ module DeviceWizard
         return 'IPhone'
       end
 
-      return 'Unknown'
+      return UNKNOWN
     end
 
     def identify(user_agent)
@@ -367,7 +373,7 @@ module DeviceWizard
 
     def get_version(user_agent)
       user_agent.downcase!
-      result = 'Unknown'
+      result = UNKNOWN
 
       if REGEX =~ user_agent
         result = $1
@@ -400,7 +406,7 @@ module DeviceWizard
 
     def get_version(user_agent)
       user_agent.downcase!
-      result = 'Unknown'
+      result = UNKNOWN
 
       if REGEX =~ user_agent
         if NTVERSION.index($1)
