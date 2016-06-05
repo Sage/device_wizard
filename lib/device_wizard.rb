@@ -204,9 +204,10 @@ module DeviceWizard
   end
 
   class InternetExplorerResolver
-
     KEYWORD = 'msie'
+    KEYWORD2 = ' rv:'
     REGEX = Regexp.new('msie ([0-9]+.[0-9])')
+    REGEX2 = Regexp.new('rv:([0-9]+.[0-9])')
 
     def get_version(user_agent)
       user_agent.downcase!
@@ -215,13 +216,18 @@ module DeviceWizard
       if REGEX =~ user_agent
         result = $1
       end
+      if REGEX2 =~ user_agent
+        result = $1
+      end
     end
 
     def identify(user_agent)
       user_agent.downcase!
 
       if !user_agent.include? KEYWORD
-        return nil
+        if !user_agent.include? KEYWORD2
+          return nil
+        end
       end
 
       result = BrowserDetails.new
@@ -389,13 +395,19 @@ module DeviceWizard
 
     KEYWORD = 'windows nt'
     REGEX = Regexp.new('windows nt ([0-9]{1,}[\.0-9]{0,})')
+    NTVERSION = [ '4.0', '5.0', '5.01', '5.1', '5.2', '6.0', '6.1', '6.2', '6.3' ]
+    NTNAME    = [ 'NT 4.0', '2000', '2000 SP1', 'XP', 'XP x64', 'Vista', '7', '8', '8.1' ]
 
     def get_version(user_agent)
       user_agent.downcase!
       result = 'Unknown'
 
       if REGEX =~ user_agent
-        result = $1
+        if NTVERSION.index($1)
+          result = NTNAME[NTVERSION.index($1)]
+        else
+          result = $1
+        end
       end
     end
 
@@ -413,6 +425,5 @@ module DeviceWizard
     end
 
   end
-
 
 end
