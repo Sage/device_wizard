@@ -6,12 +6,32 @@ describe DeviceWizard::UserAgentDetector do
 
   context 'Operating System' do
 
-    it 'should correctly identify a Windows OS' do
-
-      user_agent = "Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2049.0 Safari/537.36"
+    it 'should correctly identify a Windows Vista OS' do
+      user_agent = 'Mozilla/5.0 (Windows NT 6.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2049.0 Safari/537.36'
       os = subject.get_os(user_agent)
       expect(os.name).to eq('Windows')
-      expect(os.version).to eq('6.3')
+      expect(os.version).to eq('Vista')
+    end
+
+    it 'should correctly identify a Windows 7 OS' do
+      user_agent = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2049.0 Safari/537.36'
+      os = subject.get_os(user_agent)
+      expect(os.name).to eq('Windows')
+      expect(os.version).to eq('7')
+    end
+
+    it 'should correctly identify a Windows 8 OS' do
+      user_agent = 'Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2049.0 Safari/537.36'
+      os = subject.get_os(user_agent)
+      expect(os.name).to eq('Windows')
+      expect(os.version).to eq('8')
+    end
+
+    it 'should correctly identify a Windows 8.1 OS' do
+      user_agent = 'Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2049.0 Safari/537.36'
+      os = subject.get_os(user_agent)
+      expect(os.name).to eq('Windows')
+      expect(os.version).to eq('8.1')
     end
 
     it 'should correctly identify a IOS' do
