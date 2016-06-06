@@ -220,10 +220,10 @@ module DeviceWizard
       result = UNKNOWN
 
       if REGEX =~ user_agent
-        result = $1
+        return result = $1
       end
       if REGEX2 =~ user_agent
-        result = $1
+        return result = $1
       end
     end
 

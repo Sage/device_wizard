@@ -47,6 +47,15 @@ describe DeviceWizard::UserAgentDetector do
 
     end
 
+    it 'should correctly identify a ie11 browser' do
+
+      user_agent = "Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; Touch; rv:11.0) like Gecko"
+      browser = subject.get_browser(user_agent)
+      expect(browser.name).to eq('Internet Explorer')
+      expect(browser.version).to eq('11.0')
+
+    end
+
     it 'should correctly identify a safari browser' do
 
       user_agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/537.13+ (KHTML, like Gecko) Version/5.1.7 Safari/534.57.2"
