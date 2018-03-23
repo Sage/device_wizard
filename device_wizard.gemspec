@@ -7,11 +7,11 @@ Gem::Specification.new do |spec|
   spec.name          = "device_wizard"
   spec.version       = DeviceWizard::VERSION
   spec.authors       = ["vaughanbrittonsage"]
-  spec.email         = ["vaughanbritton@gmail.com"]
+  spec.email         = ["vaughan.britton@sage.com"]
 
   spec.summary       = 'A fast & lightweight device detection framework.'
   spec.description   = "A device detection framework that is not based on lookup dictionaries, which makes this framework extra light weight, ultra fast and future proof as new devices don't need to be added into the framework."
-  spec.homepage      = "https://github.com/vaughanbrittonsage/device_wizard"
+  spec.homepage      = "https://github.com/sage/device_wizard"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
