@@ -16,53 +16,63 @@ gem 'device_wizard'
 
 And then execute:
 
-    $ bundle
+```bash
+$ bundle
+```
 
 Or install it yourself as:
 
-    $ gem install device_wizard
+```bash
+$ gem install device_wizard
+```
 
 ## Usage
 
 **Identify All Details**
 
-    #create the user agent detector
-    detector = DeviceWizard::UserAgentDetector.new
-    
-    #pass the user agent to the detector
-    details = detector.get_details(user_agent)
-    
+```ruby
+#create the user agent detector
+detector = DeviceWizard::UserAgentDetector.new
+
+#pass the user agent to the detector
+details = detector.get_details(user_agent)
+```
+
 The detected details will return the following:
 - **Type** This is the device type of the request [mobile/tablet/desktop etc]
 - **Browser** This is the browser of the request {name, version}
 
+```ruby
+browser = details.browser
 
-    browser = details.browser
-    
-    browser_name = details.browser.name
-    
-    browser_version = details.browser.version
-    
+browser_name = details.browser.name
+
+browser_version = details.browser.version
+```
+
 - **OS** This is the operating system of the request {name, type, version}
 
+```ruby
+os = details.os
 
-    os = details.os
-    
-    os_name = details.os.name
-    
-    os_type = details.os.type
-    
-    os_version = details.os.version
+os_name = details.os.name
+
+os_type = details.os.type
+
+os_version = details.os.version
+```
 
 
 **Identify Device Type**
 
-    #create the user agent detector
-    detector = DeviceWizard::UserAgentDetector.new
-    
-    #pass the user agent to the detector
-    device_type = detector.get_device_type(user_agent_string)
-    
+```ruby
+#create the user agent detector
+detector = DeviceWizard::UserAgentDetector.new
+
+#pass the user agent to the detector
+device_type = detector.get_device_type(user_agent_string)
+```
+
 The detected device type will be one of the following:
 - **desktop**
 - **tablet**
