@@ -1,6 +1,4 @@
 require 'spec_helper'
-require 'pry'
-require 'device_wizard'
 
 describe DeviceWizard::UserAgentDetector do
 
