@@ -1,5 +1,10 @@
 # DeviceWizard
 
+[![Build Status](https://travis-ci.org/Sage/device_wizard.svg?branch=master)](https://travis-ci.org/Sage/device_wizard)
+[![Maintainability](https://api.codeclimate.com/v1/badges/f0d6439302f953419f93/maintainability)](https://codeclimate.com/github/Sage/device_wizard/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/f0d6439302f953419f93/test_coverage)](https://codeclimate.com/github/Sage/device_wizard/test_coverage)
+[![Gem Version](https://badge.fury.io/rb/device_wizard.svg)](https://badge.fury.io/rb/device_wizard)
+
 Welcome to DeviceWizard!
 
 The super fast, ultra light weight device detection framework.
