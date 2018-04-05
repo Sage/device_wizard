@@ -49,33 +49,8 @@ module DeviceWizard
         return DeviceType::TABLET
       end
 
-      if user_agent.include? MOBILE
-        if user_agent.include? IPAD
-          return DeviceType::TABLET
-        else
-          return DeviceType::MOBILE
-        end
-      elsif user_agent.include? ANDROID
-        return DeviceType::TABLET
-      end
-
-      if REGEX_MOBILE =~ user_agent
-        return DeviceType::MOBILE
-      end
-
-      if user_agent.include? SILK
-        return DeviceType::TABLET
-      end
-
-      if REGEX_OS =~ user_agent
-        return DeviceType::DESKTOP
-      end
-
-      if REGEX_CRAWLER =~ user_agent
-        return DeviceType::CRAWLER
-      end
-
-      DeviceType::UNKNOWN
+      type = determine_type(user_agent)
+      type || DeviceType::UNKNOWN
     end
 
     def get_browser(user_agent)
@@ -98,12 +73,31 @@ module DeviceWizard
 
     def get_details(user_agent)
       details = Details::Device.new
-
       details.type = get_device_type(user_agent)
       details.browser = get_browser(user_agent)
       details.os = get_os(user_agent)
-
       details
+    end
+
+    private
+
+    def determine_type(user_agent)
+      return DeviceType::TABLET if user_agent.include? TABLET
+
+      if user_agent.include? MOBILE
+        if user_agent.include? IPAD
+          return DeviceType::TABLET
+        else
+          return DeviceType::MOBILE
+        end
+      elsif user_agent.include? ANDROID
+        return DeviceType::TABLET
+      end
+
+      return DeviceType::MOBILE if REGEX_MOBILE =~ user_agent
+      return DeviceType::TABLET if user_agent.include? SILK
+      return DeviceType::DESKTOP if REGEX_OS =~ user_agent
+      return DeviceType::CRAWLER if REGEX_CRAWLER =~ user_agent
     end
   end
 end

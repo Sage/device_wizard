@@ -26,13 +26,7 @@ module DeviceWizard
       def identify(user_agent)
         user_agent.downcase!
 
-        if !user_agent.include? IPHONE
-          if !user_agent.include? IPAD
-            if !user_agent.include? IPOD
-              return nil
-            end
-          end
-        end
+        return unless [IPHONE, IPAD, IPOD].any? { |i| user_agent.include? i }
 
         result = details_klass.new
         result.name = NAME
