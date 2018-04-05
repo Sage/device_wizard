@@ -1,6 +1,7 @@
+# frozen_string_literal: true
+
 module DeviceWizard
   class UserAgentDetector
-
     #########
     ##CONST Keywords
     MOBILE = 'mobile'
@@ -21,16 +22,16 @@ module DeviceWizard
 
     def initialize
       @browser_resolvers = []
-      @browser_resolvers.push(FirefoxResolver.new)
-      @browser_resolvers.push(GoogleChromeResolver.new)
-      @browser_resolvers.push(InternetExplorerResolver.new)
-      @browser_resolvers.push(SafariResolver.new)
+      @browser_resolvers.push(Resolvers::Firefox.new)
+      @browser_resolvers.push(Resolvers::GoogleChrome.new)
+      @browser_resolvers.push(Resolvers::InternetExplorer.new)
+      @browser_resolvers.push(Resolvers::Safari.new)
 
       @os_resolvers = []
-      @os_resolvers.push(AndroidResolver.new)
-      @os_resolvers.push(IOSResolver.new)
-      @os_resolvers.push(MacResolver.new)
-      @os_resolvers.push(WindowsResolver.new)
+      @os_resolvers.push(Resolvers::Android.new)
+      @os_resolvers.push(Resolvers::IOS.new)
+      @os_resolvers.push(Resolvers::Mac.new)
+      @os_resolvers.push(Resolvers::Windows.new)
     end
 
     def unknown
@@ -38,7 +39,6 @@ module DeviceWizard
     end
 
     def get_device_type(user_agent)
-
       if user_agent.to_s.strip.length == 0
         return DeviceType::UNKNOWN
       end
@@ -75,51 +75,35 @@ module DeviceWizard
         return DeviceType::CRAWLER
       end
 
-      return DeviceType::UNKNOWN
-
+      DeviceType::UNKNOWN
     end
 
     def get_browser(user_agent)
-
       @browser_resolvers.each do |r|
-
         browser = r.identify(user_agent)
-
-        if browser != nil
-          return browser
-        end
-
+        return browser unless browser.nil?
       end
 
-      return BrowserDetails.new
-
+      Details::Browser.new
     end
 
     def get_os(user_agent)
-
       @os_resolvers.each do |r|
-
         os = r.identify(user_agent)
-
-        if os != nil
-          return os
-        end
-
+        return os unless os.nil?
       end
 
-      return OperatingSystemDetails.new
-
+      Details::OperatingSystem.new
     end
 
     def get_details(user_agent)
-      details = DeviceDetails.new
+      details = Details::Device.new
 
       details.type = get_device_type(user_agent)
       details.browser = get_browser(user_agent)
       details.os = get_os(user_agent)
 
-      return details
+      details
     end
-
   end
 end
