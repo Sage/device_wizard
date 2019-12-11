@@ -5,7 +5,7 @@ module DeviceWizard
     class Mac < Base
       NAME = 'Mac OSX'
       KEYWORD = 'intel mac os x'
-      REGEX = Regexp.new('(intel mac os x (?:[0-9]+[._]?){1,3})')
+      REGEX = Regexp.new('(?:intel mac os x (([0-9]+[._]?){1,3}))')
 
       def get_version(user_agent)
         result = super(user_agent)
