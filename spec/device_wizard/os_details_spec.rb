@@ -53,7 +53,7 @@ describe DeviceWizard::UserAgentDetector do
       user_agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/537.13+ (KHTML, like Gecko) Version/5.1.7 Safari/534.57.2"
       os = subject.get_os(user_agent)
       expect(os.name).to eq('Mac OSX')
-      expect(os.version).to eq('10.6')
+      expect(os.version).to eq('10.6.8')
     end
 
   end
