@@ -4,12 +4,20 @@ describe DeviceWizard::UserAgentDetector do
 
   context 'Browser' do
 
-    it 'should correctly identify a firefox browser' do
+    it 'should correctly identify a firefox (windows) browser' do
 
       user_agent = "Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0";
       browser = subject.get_browser(user_agent)
       expect(browser.name).to eq('Firefox')
       expect(browser.version).to eq('31.0')
+    end
+
+    it 'should correctly identify a firefox (mac) browser' do
+
+      user_agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:71.0) Gecko/20100101 Firefox/71.0"
+      browser = subject.get_browser(user_agent)
+      expect(browser.name).to eq('Firefox')
+      expect(browser.version).to eq('71.0')
     end
 
     it 'should correctly identify a google chrome browser' do
